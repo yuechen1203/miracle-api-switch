@@ -1,0 +1,17 @@
+model_provider = "Sample"
+model = ""
+model_reasoning_effort = "xhigh"
+plan_mode_reasoning_effort = "xhigh"
+model_reasoning_summary = "none"
+model_context_window = 1050000
+model_auto_compact_token_limit = 945000
+stream_idle_timeout_ms = 900000
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+suppress_unstable_features_warning = true
+
+[model_providers.Sample]
+name = "Sample"
+base_url = ""
+wire_api = ""
+experimental_bearer_token = ""
