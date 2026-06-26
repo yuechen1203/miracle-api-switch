@@ -156,7 +156,7 @@ async function clear() {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-size: 12.5px;
+  font-size: 14px;
 }
 .result-row .label { color: var(--text-tertiary); }
 .result-row .value {
@@ -165,7 +165,7 @@ async function clear() {
   word-break: break-all;
 }
 .result-msg {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--text-secondary);
   border-top: 1px dashed var(--border-soft);
   padding-top: 8px;

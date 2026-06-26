@@ -144,37 +144,56 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 4px;
   border: 1px solid var(--border-strong);
-  background: var(--bg-surface-2);
-  color: var(--text-tertiary);
-  border-radius: var(--radius-xs);
-  height: 24px;
-  padding: 0 7px;
+  background: linear-gradient(135deg, rgba(71, 106, 159, 0.12), var(--panel-light));
+  color: var(--text-secondary);
+  border-radius: 999px;
+  height: 25px;
+  padding: 0 8px;
   cursor: pointer;
-  font-size: 11.5px;
+  font-size: 12px;
+  transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
 }
-.info-trigger:hover {
+.info-trigger:hover,
+.info-trigger[aria-expanded="true"] {
   color: var(--warn);
-  border-color: rgba(246, 178, 90, 0.42);
+  border-color: rgba(71, 106, 159, 0.46);
+  background: var(--warn-soft);
+  transform: translateY(-1px);
 }
 .info-popover {
   position: fixed;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 12px;
-  background: var(--bg-surface);
+  gap: 7px;
+  padding: 12px 13px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), transparent 36%),
+    var(--bg-glass-strong);
   border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
   color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 12.5px;
+  line-height: 1.55;
   text-align: left;
+  backdrop-filter: blur(18px);
+}
+.info-popover::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 18px;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-glass-strong);
+  border-left: 1px solid var(--border-strong);
+  border-top: 1px solid var(--border-strong);
+  transform: rotate(45deg);
 }
 .info-popover strong {
   color: var(--text-primary);
-  font-size: 12.5px;
+  font-size: 13px;
 }
 .info-content {
   display: block;

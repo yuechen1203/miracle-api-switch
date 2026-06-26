@@ -52,7 +52,10 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 .modal-root {
   position: fixed;
   inset: 0;
-  background: rgba(2, 6, 12, 0.55);
+  background:
+    linear-gradient(135deg, rgba(226, 247, 252, 0.3), rgba(22, 103, 119, 0.05)),
+    rgba(73, 42, 30, 0.24);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,36 +63,42 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
   padding: 20px;
 }
 .modal-panel {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), transparent 34%),
+    var(--bg-glass-strong);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   max-width: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
 }
 .modal-header {
-  padding: 16px 20px;
+  padding: 17px 20px;
   border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
 }
 .modal-header h3 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 750;
 }
 .modal-body {
-  padding: 18px 20px;
-  font-size: 13px;
+  padding: 19px 20px;
+  font-size: 14.5px;
   color: var(--text-primary);
 }
 .modal-footer {
-  padding: 12px 16px;
+  padding: 13px 16px;
   border-top: 1px solid var(--border-soft);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  background: var(--panel-light);
 }
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 140ms ease;
+  transition: opacity var(--duration-med) var(--ease-out);
 }
 .modal-enter-from,
 .modal-leave-to {
@@ -97,10 +106,11 @@ onBeforeUnmount(() => document.removeEventListener("keydown", onKeydown));
 }
 .modal-enter-active .modal-panel,
 .modal-leave-active .modal-panel {
-  transition: transform 180ms ease;
+  transition: transform var(--duration-med) var(--ease-out), opacity var(--duration-med) var(--ease-out);
 }
 .modal-enter-from .modal-panel,
 .modal-leave-to .modal-panel {
-  transform: translateY(6px) scale(0.99);
+  opacity: 0;
+  transform: translateY(14px) scale(0.975);
 }
 </style>

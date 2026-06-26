@@ -59,62 +59,77 @@ onBeforeUnmount(() => {
 .drawer-root {
   position: fixed;
   inset: 0;
-  background: rgba(2, 6, 12, 0.6);
-  backdrop-filter: blur(2px);
+  background:
+    linear-gradient(135deg, rgba(226, 247, 252, 0.3), rgba(22, 103, 119, 0.05)),
+    rgba(73, 42, 30, 0.24);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: flex-end;
   z-index: 1000;
 }
 .drawer-panel {
-  background: var(--bg-surface);
-  border-left: 1px solid var(--border-soft);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 30%),
+    var(--bg-glass-strong);
+  border-left: 1px solid var(--border-strong);
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-lg);
+  box-shadow: -30px 0 80px rgba(18, 77, 91, 0.22);
   max-width: 100vw;
+  backdrop-filter: blur(20px);
 }
 .drawer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 17px 19px;
   border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, var(--panel-light), transparent);
 }
 .drawer-header h2 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 750;
 }
 .drawer-close {
-  background: transparent;
-  border: none;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-light);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
   color: var(--text-tertiary);
   font-size: 22px;
   cursor: pointer;
   line-height: 1;
-  padding: 0 4px;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
 }
 .drawer-close:hover {
   color: var(--text-primary);
+  background: var(--panel-lighter);
+  transform: rotate(6deg);
 }
 .drawer-body {
   flex: 1;
   overflow: auto;
-  padding: 18px;
+  padding: 20px;
 }
 .drawer-footer {
   border-top: 1px solid var(--border-soft);
-  padding: 12px 18px;
+  padding: 13px 18px;
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  background: var(--bg-surface);
+  background: var(--panel-light);
 }
 
 .drawer-enter-active,
 .drawer-leave-active {
-  transition: opacity 140ms ease;
+  transition: opacity var(--duration-med) var(--ease-out);
 }
 .drawer-enter-from,
 .drawer-leave-to {
@@ -122,10 +137,11 @@ onBeforeUnmount(() => {
 }
 .drawer-enter-active .drawer-panel,
 .drawer-leave-active .drawer-panel {
-  transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 260ms var(--ease-out), opacity 260ms var(--ease-out);
 }
 .drawer-enter-from .drawer-panel,
 .drawer-leave-to .drawer-panel {
-  transform: translateX(24px);
+  opacity: 0.6;
+  transform: translateX(32px);
 }
 </style>

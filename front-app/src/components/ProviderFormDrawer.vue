@@ -262,13 +262,14 @@ async function submit() {
   gap: 14px;
 }
 .proxy-block {
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(251, 254, 255, 0.72), var(--accent-soft));
+  border: 2px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  box-shadow: 0 8px 24px rgba(16, 122, 115, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 .proxy-head {
   display: flex;
@@ -278,7 +279,7 @@ async function submit() {
 }
 .proxy-head h4 {
   margin: 0;
-  font-size: 13px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -291,26 +292,26 @@ async function submit() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-surface);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  background: var(--field-bg);
+  border: 2px solid var(--field-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
 }
 .proxy-preview .label {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--text-tertiary);
 }
 .proxy-preview code {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--accent);
 }
 .form-submit-error {
   background: var(--danger-soft);
-  border: 1px solid rgba(239, 106, 106, 0.32);
-  color: #ffd2d2;
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 12.5px;
+  border: 1px solid rgba(182, 63, 63, 0.34);
+  color: var(--danger);
+  padding: 9px 10px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
 }
 .mono { font-family: var(--font-mono); }
 </style>

@@ -47,8 +47,10 @@ onBeforeUnmount(() => {
 
 <template>
   <AppShell>
-    <router-view v-slot="{ Component }">
-      <component :is="Component" />
+    <router-view v-slot="{ Component, route }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" :key="route.fullPath" />
+      </Transition>
     </router-view>
   </AppShell>
 </template>

@@ -68,14 +68,15 @@ const defaultLabel = computed(() => {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 650;
   color: var(--text-secondary);
   white-space: nowrap;
 }
 .dot {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -84,16 +85,17 @@ const defaultLabel = computed(() => {
 .dot::after {
   content: "";
   position: absolute;
-  inset: -3px;
+  inset: -4px;
   border-radius: 50%;
   border: 1px solid currentColor;
-  opacity: 0.25;
+  opacity: 0.24;
 }
 .dot-inner {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: currentColor;
+  box-shadow: 0 0 12px currentColor;
 }
 .tone-ok    { color: var(--ok); }
 .tone-warn  { color: var(--warn); }
@@ -106,6 +108,6 @@ const defaultLabel = computed(() => {
 .tone-danger .dot-inner{ animation: pulse 1.6s ease-in-out infinite; }
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 currentColor; }
-  50%      { box-shadow: 0 0 0 4px transparent; }
+  50%      { box-shadow: 0 0 0 5px transparent; }
 }
 </style>

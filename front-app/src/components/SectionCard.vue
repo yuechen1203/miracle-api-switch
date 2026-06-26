@@ -25,37 +25,55 @@ defineProps<{ title?: string; subtitle?: string; padded?: boolean }>();
 
 <style scoped>
 .section-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.105), var(--panel-light) 38%),
+    var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  position: relative;
+}
+.section-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 122, 115, 0.38), rgba(40, 111, 159, 0.22), transparent);
+  opacity: 0.9;
 }
 .section-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 18px;
+  padding: 16px 19px;
   border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, var(--panel-light), rgba(255, 255, 255, 0));
 }
 .head-text h3 {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 800;
   margin: 0;
+  letter-spacing: 0;
+  color: var(--text-primary);
 }
 .head-sub {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--text-tertiary);
-  margin: 4px 0 0;
+  margin: 5px 0 0;
 }
 .head-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .section-body.padded {
-  padding: 16px 18px;
+  padding: 18px 19px;
 }
 </style>

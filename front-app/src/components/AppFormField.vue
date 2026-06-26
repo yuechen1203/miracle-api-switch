@@ -19,20 +19,23 @@ defineProps<{ label?: string; hint?: string; error?: string }>();
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
 }
 .form-label {
-  font-size: 12px;
-  color: var(--text-secondary);
-  letter-spacing: 0.01em;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0;
 }
 .form-error {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--danger);
+  font-weight: 500;
 }
 .form-hint {
-  font-size: 11.5px;
+  font-size: 13.5px;
   color: var(--text-tertiary);
+  line-height: 1.5;
 }
 </style>

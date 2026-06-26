@@ -54,11 +54,11 @@ async function refreshAll() {
   <div class="shell">
     <header class="topbar">
       <div class="brand">
-        <LogoMark :running="proxyRunningCount > 0" :offline="!appStore.online" />
+        <LogoMark :running="proxyRunningCount > 0" :offline="!appStore.online" :size="34" />
         <div class="brand-text">
           <div class="brand-name">miracle-api-switch</div>
           <div class="brand-sub mono">
-            local · {{ appStore.health?.version ?? "0.1.0" }}
+            local control plane · {{ appStore.health?.version ?? "0.1.0" }}
           </div>
         </div>
       </div>
@@ -79,28 +79,34 @@ async function refreshAll() {
 
     <div class="layout">
       <nav class="sidebar">
-        <RouterLink
-          v-for="item in navItems"
-          :key="item.to"
-          :to="item.to"
-          class="nav-item"
-          :exact-active-class="'active'"
-        >
-          <component :is="item.icon" :size="15" />
-          <span>{{ item.label }}</span>
-        </RouterLink>
+        <div class="nav-group">
+          <RouterLink
+            v-for="item in navItems"
+            :key="item.to"
+            :to="item.to"
+            class="nav-item"
+            :exact-active-class="'active'"
+          >
+            <span class="nav-icon"><component :is="item.icon" :size="15" /></span>
+            <span>{{ item.label }}</span>
+          </RouterLink>
+        </div>
         <div class="nav-foot mono">
-          <div>cache: <span class="hint">{{ appStore.health?.cache_dir ?? '.hyc_cache' }}</span></div>
+          <span class="foot-label">cache workspace</span>
+          <div class="hint">{{ appStore.health?.cache_dir ?? '.hyc_cache' }}</div>
         </div>
       </nav>
       <main class="content">
-        <div v-if="!appStore.online" class="offline-banner">
-          <div>
-            <strong>无法连接后端服务</strong>
-            <span class="hint">{{ appStore.lastHealthError || "请确认 back-app 已经在 127.0.0.1:8765 启动" }}</span>
+        <transition name="banner">
+          <div v-if="!appStore.online" class="offline-banner">
+            <div class="offline-icon"><Power :size="16" /></div>
+            <div>
+              <strong>无法连接后端服务</strong>
+              <span class="hint">{{ appStore.lastHealthError || "请确认 back-app 已经在 127.0.0.1:8765 启动" }}</span>
+            </div>
+            <button class="reconnect-btn" @click="appStore.checkHealth()">重新连接</button>
           </div>
-          <button class="icon-btn" @click="appStore.checkHealth()">重新连接</button>
-        </div>
+        </transition>
         <slot />
       </main>
     </div>
@@ -118,29 +124,43 @@ async function refreshAll() {
 .topbar {
   height: var(--header-h);
   border-bottom: 1px solid var(--border-soft);
-  background: rgba(7, 9, 12, 0.85);
-  backdrop-filter: blur(8px);
+  background:
+    linear-gradient(90deg, rgba(251, 254, 255, 0.96), rgba(225, 244, 249, 0.92)),
+    var(--bg-glass);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
-  padding: 0 18px;
-  gap: 14px;
+  padding: 0 24px;
+  gap: 18px;
   position: sticky;
   top: 0;
   z-index: 50;
+  box-shadow: 0 14px 42px rgba(18, 77, 91, 0.12);
+}
+.topbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 122, 115, 0.42), rgba(40, 111, 159, 0.26), transparent);
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .brand-name {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--text-primary);
 }
 .brand-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-tertiary);
+  letter-spacing: 0;
 }
 .topbar-spacer { flex: 1; }
 .topbar-status {
@@ -152,53 +172,66 @@ async function refreshAll() {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 13px;
   border-radius: 999px;
   border: 1px solid var(--border-strong);
-  padding: 4px 10px;
-  background: var(--bg-surface-2);
+  padding: 6px 11px;
+  background: var(--panel-light);
   color: var(--text-secondary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 .status-pill.on {
   color: var(--ok);
-  border-color: rgba(92, 210, 155, 0.35);
-  background: var(--ok-soft);
+  border-color: rgba(116, 224, 173, 0.35);
+  background: linear-gradient(135deg, var(--ok-soft), rgba(245, 249, 255, 0.1));
 }
 .status-pill.off {
   color: var(--danger);
-  border-color: rgba(239, 106, 106, 0.35);
-  background: var(--danger-soft);
+  border-color: rgba(251, 133, 133, 0.35);
+  background: linear-gradient(135deg, var(--danger-soft), rgba(245, 249, 255, 0.1));
 }
 .status-pill.running {
   color: var(--accent);
-  border-color: rgba(54, 226, 196, 0.35);
-  background: var(--accent-soft);
+  border-color: var(--border-glow);
+  background: linear-gradient(135deg, var(--accent-soft), rgba(251, 254, 255, 0.62));
 }
 .status-pill .dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 0 3px rgba(54, 226, 196, 0.18);
+  box-shadow: 0 0 0 3px var(--accent-soft);
   animation: pulse 2s ease-in-out infinite;
 }
-.icon-btn {
+.icon-btn,
+.reconnect-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-strong);
-  background: var(--bg-surface-2);
+  background: var(--panel-light);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: color 120ms ease, background 120ms ease;
+  transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.icon-btn {
+  width: 32px;
+  height: 32px;
   padding: 0;
 }
-.icon-btn:hover {
+.icon-btn:hover,
+.reconnect-btn:hover {
   background: var(--bg-surface-3);
   color: var(--text-primary);
+  border-color: var(--border-glow);
+  transform: translateY(-1px);
+}
+.reconnect-btn {
+  height: 32px;
+  padding: 0 12px;
+  margin-left: auto;
+  font-size: 13px;
 }
 
 .layout {
@@ -209,69 +242,157 @@ async function refreshAll() {
 }
 .sidebar {
   border-right: 1px solid var(--border-soft);
-  background: var(--bg-surface);
-  padding: 16px 10px;
+  background:
+    linear-gradient(180deg, rgba(251, 254, 255, 0.94), rgba(225, 244, 249, 0.82)),
+    var(--bg-glass);
+  backdrop-filter: blur(18px);
+  padding: 18px 12px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 14px;
+  box-shadow: inset -1px 0 0 rgba(43, 101, 116, 0.1);
+}
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .nav-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
-  font-size: 13px;
+  padding: 10px 11px;
+  font-size: 14.5px;
   color: var(--text-secondary);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+.nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--panel-light);
+  color: var(--text-tertiary);
+  transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
 }
 .nav-item:hover {
-  background: var(--bg-surface-2);
+  background: var(--panel-lighter);
   color: var(--text-primary);
+  transform: translateX(2px);
+}
+.nav-item:hover .nav-icon {
+  color: var(--accent);
+  background: var(--accent-soft);
 }
 .nav-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: linear-gradient(135deg, var(--accent-soft), rgba(251, 254, 255, 0.66));
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px var(--border-glow), 0 12px 24px rgba(16, 122, 115, 0.1);
 }
-.nav-item.active :deep(svg) { color: var(--accent); }
+.nav-item.active::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+.nav-item.active .nav-icon { color: var(--accent); background: var(--accent-soft); }
 
 .nav-foot {
   margin-top: auto;
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--text-tertiary);
-  padding: 8px 10px;
+  padding: 12px;
   word-break: break-all;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--panel-light);
+}
+.foot-label {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  font-size: 11px;
 }
 
 .content {
-  padding: 22px 28px 40px;
+  padding: 28px clamp(18px, 3vw, 42px) 48px;
   min-width: 0;
+  position: relative;
 }
 .offline-banner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
-  background: var(--danger-soft);
-  border: 1px solid rgba(239, 106, 106, 0.32);
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  margin-bottom: 18px;
+  background: linear-gradient(135deg, var(--danger-soft), var(--bg-card));
+  border: 1px solid rgba(182, 63, 63, 0.34);
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
   color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(16px);
+}
+.offline-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(251, 133, 133, 0.3);
 }
 .offline-banner strong {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
 }
 .offline-banner .hint {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
   margin-top: 2px;
 }
 
+.banner-enter-active,
+.banner-leave-active {
+  transition: opacity var(--duration-med) var(--ease-out), transform var(--duration-med) var(--ease-out);
+}
+.banner-enter-from,
+.banner-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
 @media (max-width: 900px) {
+  .topbar {
+    padding: 0 14px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .topbar-status .status-pill span {
+    display: none;
+  }
   .layout {
     grid-template-columns: 1fr;
   }
@@ -279,11 +400,21 @@ async function refreshAll() {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 8px;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-group {
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
   .nav-foot { display: none; }
-  .nav-item { flex: 1; justify-content: center; }
-  .content { padding: 16px; }
+  .nav-item { flex: 1; justify-content: center; min-width: 130px; }
+  .nav-item:hover { transform: translateY(-1px); }
+  .content { padding: 18px; }
+  .offline-banner { align-items: flex-start; flex-wrap: wrap; }
+  .reconnect-btn { margin-left: 46px; }
 }
 
 @keyframes pulse {

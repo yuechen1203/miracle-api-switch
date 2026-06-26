@@ -31,32 +31,35 @@ function select(value: string) {
 <style scoped>
 .seg {
   display: inline-flex;
-  background: var(--bg-surface);
+  background: var(--panel-light);
   border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 2px;
-  gap: 2px;
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
   width: 100%;
+  box-shadow: inset 0 1px 0 var(--panel-light);
 }
 .seg-btn {
   flex: 1;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   color: var(--text-secondary);
-  font-size: 12px;
-  height: 28px;
+  font-size: 13.5px;
+  height: 29px;
   padding: 0 10px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
 }
 .seg-btn:hover:not(:disabled) {
   color: var(--text-primary);
+  background: var(--panel-light);
 }
 .seg-btn.active {
-  background: var(--bg-surface-3);
-  color: var(--text-primary);
-  box-shadow: inset 0 0 0 1px var(--border-strong);
+  background: linear-gradient(135deg, var(--accent-soft), rgba(251, 254, 255, 0.72));
+  color: var(--accent);
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 18px rgba(16, 122, 115, 0.1);
 }
 .seg.disabled .seg-btn {
   cursor: not-allowed;
